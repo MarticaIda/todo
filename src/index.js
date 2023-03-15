@@ -1,8 +1,6 @@
 import './style.css'
+import renderPage from './dom_build'
 
-const todosContainer = document.getElementById('todos')
+renderPage()
 
-const todo = document.createElement('span')
-todo.setAttribute('class', 'item')
-todo.textContent = 'lorem ipsum'
-todosContainer.appendChild(todo)
+
