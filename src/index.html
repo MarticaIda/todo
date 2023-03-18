@@ -16,7 +16,39 @@
         consectetur!
       </nav>
       <main id="main">
-        <div id="todos"></div>
+        <table>
+          <colgroup>
+            <col class="fixed" />
+            <col class="fixed" />
+            <col class="fixed" />
+            <col class="fixed" />
+            <col class="fixed" />
+          </colgroup>
+        </table>
+        <div id="btnContainer">
+          <button id="btnOpen" type="button">+</button>
+        </div>
+        <div id="modal">
+          <div class="form-container">
+            <form class="form-content" action="" method="post">
+              <label for="task_name">Task</label>
+              <input type="text" id="task" name="task" required />
+              <label for="details">Details</label>
+              <input type="textbox" id="details" name="details" />
+              <label for="dueDate">Due date</label>
+              <input type="date" id="dueDate" name="dueDate" />
+              <label for="priority">Priority</label>  
+              <select name="priority" id="priority">
+                <option value="yesterday">Yesterday</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+                <option value="no rush">No rush</option>
+              </select>
+              <button id="submit" type="submit" value="add">Add</button>
+            </form>
+            <img src="close.png" alt="Close" id="close" />
+          </div>
+        </div>
       </main>
     </div>
     <footer>Copyright Maria Martinkous 2023</footer>

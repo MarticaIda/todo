@@ -1,5 +1,11 @@
+// task and project object logic goes here
+
 import './style.css'
-import renderPage from './dom_build'
+import openModal from './modal'
+import generateTable from './dom_build'
+
+const myTasks = []
+// const myProjects = []
 
 const taskActions = {
   changeContent (newContent) {
@@ -16,22 +22,19 @@ const taskActions = {
   }
 }
 
-function createTask (content, details, dueDate, priority) {
+export function createTask (content, details, dueDate, priority) {
   const task = Object.create(taskActions)
-  task.content = content
-  task.details = details
-  task.dueDate = dueDate
-  task.priority = priority
-  return task
+  task.content = document.getElementById('task').value
+  task.details = document.getElementById('details').value
+  task.dueDate = document.getElementById('dueDate').value
+  task.priority = document.getElementById('priority').value
+  myTasks.push(task)
 }
 
-const taskOne = createTask('do this', 'like so', 'on the 1st', 'high')
+openModal()
 
-// taskOne.changeDueDate = taskActions.changeDueDate
-console.log(taskOne)
-taskOne.changeDueDate('new Date')
-taskOne.changeContent('remember about this')
-taskOne.changePriority('low')
-console.log(taskOne)
+console.log(myTasks)
 
-renderPage(taskOne)
+generateTable(myTasks)
+
+console.log(myTasks)
