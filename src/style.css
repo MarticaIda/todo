@@ -48,6 +48,10 @@ main {
   flex: 3;
 }
 
+modal{
+  display: none;
+}
+
 table {
   table-layout: auto;
   width: 100%;

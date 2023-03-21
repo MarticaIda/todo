@@ -1,12 +1,14 @@
 // modal logic goes here
 
-import { createTask } from './index'
+import { createTask, myTasks } from './index'
+// import generateTable from './dom_build'
 
 export default function openModal () {
   const form = document.querySelector('form')
   const openBtn = document.querySelector('#btnOpen')
   const modal = document.querySelector('#modal')
-  const closeForm = document.getElementById('close')
+  const closeBtn = document.querySelector('#btnClose')
+  modal.style.display = 'none'
 
   openBtn.addEventListener('click', function () {
     modal.style.display = 'block'
@@ -15,10 +17,10 @@ export default function openModal () {
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     createTask()
-    modal.style.display = 'none'
     form.reset()
+    modal.style.display = 'none'
   })
-  closeForm.addEventListener('click', function () {
+  closeBtn.addEventListener('click', function () {
     modal.style.display = 'none'
     form.reset()
   })
