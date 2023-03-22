@@ -2,7 +2,7 @@
 
 import './style.css'
 import openModal from './modal'
-import generateTable from './dom_build'
+// import generateTable from './dom_build'
 
 export const myTasks = []
 // const myProjects = []
@@ -32,4 +32,4 @@ export function createTask (content, details, dueDate, priority) {
 }
 
 openModal()
-generateTable(myTasks)
+// generateTable(myTasks)

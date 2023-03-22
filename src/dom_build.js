@@ -3,6 +3,7 @@
 export default function generateTable (arr) {
   const main = document.querySelector('#main')
   const table = document.querySelector('table')
+  const btnContainer = document.querySelector('#btnContainer')
   table.innerHTML = ''
   // table.style.display = 'block'
   // for (let i = rowCount - 1; i > 0; i--) {
@@ -16,6 +17,7 @@ export default function generateTable (arr) {
       row.appendChild(data)
     })
     table.appendChild(row)
+
     const dCell = row.insertCell(-1)
     const input = document.createElement('input')
     input.setAttribute('type', 'checkbox')
@@ -26,5 +28,20 @@ export default function generateTable (arr) {
   }
 
   main.appendChild(table)
+  btnContainer.appendChild(deleteBtn)
+
   return table
 }
+
+const deleteBtn = document.createElement('button')
+deleteBtn.setAttribute('id', 'btnDelete')
+deleteBtn.textContent = 'Delete books'
+
+deleteBtn.addEventListener('click', function () {
+  for (let i = array.length - 1; i >= 0; --i) {
+    if (array[i].delete === true) {
+      array.splice(i, 1)
+    }
+  }
+  generateTable()
+})
