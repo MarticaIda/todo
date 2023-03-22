@@ -1,15 +1,13 @@
 // rendering logic goes here
 
-export default function generateTable (arr) {
+import { myTasks } from './index'
+
+export default function generateTable () {
   const main = document.querySelector('#main')
   const table = document.querySelector('table')
   const btnContainer = document.querySelector('#btnContainer')
   table.innerHTML = ''
-  // table.style.display = 'block'
-  // for (let i = rowCount - 1; i > 0; i--) {
-  //   table.deleteRow(i)
-  // }
-  for (const entry of arr) {
+  for (const entry of myTasks) {
     const row = document.createElement('tr')
     Object.values(entry).forEach(function (value) {
       const data = document.createElement('td')
@@ -25,6 +23,7 @@ export default function generateTable (arr) {
     input.addEventListener('click', () => {
       entry.delete = true
     })
+    console.log(myTasks)
   }
 
   main.appendChild(table)
@@ -35,12 +34,12 @@ export default function generateTable (arr) {
 
 const deleteBtn = document.createElement('button')
 deleteBtn.setAttribute('id', 'btnDelete')
-deleteBtn.textContent = 'Delete books'
+deleteBtn.textContent = 'Delete task'
 
 deleteBtn.addEventListener('click', function () {
-  for (let i = array.length - 1; i >= 0; --i) {
-    if (array[i].delete === true) {
-      array.splice(i, 1)
+  for (let i = 0; i < myTasks.length; i++) {
+    if (myTasks[i].delete === true) {
+      myTasks.splice(i, 1)
     }
   }
   generateTable()
