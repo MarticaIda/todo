@@ -15,6 +15,7 @@ export default function generateTable () {
       data.textContent = value
       data.setAttribute('class', key)
       row.appendChild(data)
+
       // const input = document.createElement('input')
       // input.setAttribute('type', 'text')
       // data.appendChild(input)
@@ -31,6 +32,11 @@ export default function generateTable () {
     deleteIcon.src = BinIcon
     deleteCell[i].textContent = ''
     deleteCell[i].appendChild(deleteIcon)
+    deleteCell[i].addEventListener('click', function () {
+      myTasks.splice(i, 1)
+      console.log(myTasks)
+      generateTable()
+    })
   }
 
   main.appendChild(table)
