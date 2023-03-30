@@ -1,46 +1,39 @@
 // rendering logic goes here
 
 import { myTasks } from './index'
+import BinIcon from './recycle-bin.png'
 
 export default function generateTable () {
   const main = document.querySelector('#main')
   const table = document.querySelector('table')
-  const btnContainer = document.querySelector('#btnContainer')
   table.innerHTML = ''
-  for (const entry of myTasks) {
+  for (const task of myTasks) {
     const row = document.createElement('tr')
-    Object.values(entry).forEach(function (value) {
+    Object.entries(task).forEach((entry) => {
+      const [key, value] = entry
       const data = document.createElement('td')
-      data.appendChild(document.createTextNode(value))
+      data.textContent = value
+      data.setAttribute('class', key)
       row.appendChild(data)
+      // const input = document.createElement('input')
+      // input.setAttribute('type', 'text')
+      // data.appendChild(input)
+      // input.addEventListener('click', function () {
+      //   dataValue = input.value
+      // })
+      // console.log(dataValue)
     })
     table.appendChild(row)
-
-    const dCell = row.insertCell(-1)
-    const input = document.createElement('input')
-    input.setAttribute('type', 'checkbox')
-    dCell.appendChild(input)
-    input.addEventListener('click', () => {
-      entry.delete = true
-    })
-    console.log(myTasks)
+  }
+  const deleteCell = document.getElementsByClassName('toDelete')
+  for (let i = 0; i < deleteCell.length; i++) {
+    const deleteIcon = new Image()
+    deleteIcon.src = BinIcon
+    deleteCell[i].textContent = ''
+    deleteCell[i].appendChild(deleteIcon)
   }
 
   main.appendChild(table)
-  btnContainer.appendChild(deleteBtn)
 
   return table
 }
-
-const deleteBtn = document.createElement('button')
-deleteBtn.setAttribute('id', 'btnDelete')
-deleteBtn.textContent = 'Delete task'
-
-deleteBtn.addEventListener('click', function () {
-  for (let i = 0; i < myTasks.length; i++) {
-    if (myTasks[i].delete === true) {
-      myTasks.splice(i, 1)
-    }
-  }
-  generateTable()
-})

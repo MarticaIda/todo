@@ -7,7 +7,7 @@ import openModal from './modal'
 export const myTasks = []
 // const myProjects = []
 
-const taskActions = {
+export const taskActions = {
   changeContent (newContent) {
     return (this.content = newContent)
   },
@@ -19,17 +19,24 @@ const taskActions = {
   },
   changePriority (newPriority) {
     return (this.priority = newPriority)
+  },
+  deleteTask () {
+    this.toDelete = true
   }
 }
 
-export function createTask (content, details, dueDate, priority) {
+export function createTask () {
   const task = Object.create(taskActions)
-  task.content = document.getElementById('task').value
-  task.details = document.getElementById('details').value
-  task.dueDate = document.getElementById('dueDate').value
-  task.priority = document.getElementById('priority').value
+  const content = document.getElementById('task')
+  const details = document.getElementById('details')
+  const dueDate = document.getElementById('dueDate')
+  const priority = document.getElementById('priority')
+  task.content = content.value
+  task.details = details.value
+  task.dueDate = dueDate.value
+  task.priority = priority.value
+  task.toDelete = false
   myTasks.push(task)
 }
 
 openModal()
-// generateTable(myTasks)
