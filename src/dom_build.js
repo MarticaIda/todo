@@ -6,26 +6,37 @@ import BinIcon from './recycle-bin.png'
 export default function generateTable () {
   const main = document.querySelector('#main')
   const table = document.querySelector('table')
-  table.innerHTML = ''
+  table.textContent = ''
   for (const task of myTasks) {
     const row = document.createElement('tr')
-    Object.entries(task).forEach((entry) => {
-      const [key, value] = entry
-      const data = document.createElement('td')
-      data.textContent = value
-      data.setAttribute('class', key)
-      row.appendChild(data)
 
-      // const input = document.createElement('input')
-      // input.setAttribute('type', 'text')
-      // data.appendChild(input)
-      // input.addEventListener('click', function () {
-      //   dataValue = input.value
-      // })
-      // console.log(dataValue)
+    Object.keys(task).forEach((entry) => {
+      const data = document.createElement('td')
+      data.setAttribute('class', entry)
+      data.textContent = task[entry]
+      row.appendChild(data)
+      const input = document.createElement('input')
+      data.addEventListener('click', addInput)
+      input.addEventListener('change', saveInput)
+
+      function addInput (event) {
+        if (event.target !== this) {
+          return
+        }
+        input.setAttribute('type', 'text')
+        input.setAttribute('value', task[entry])
+        data.textContent = ''
+        data.appendChild(input)
+      }
+
+      function saveInput (event) {
+        task[entry] = input.value
+        data.textContent = task[entry]
+      }
     })
     table.appendChild(row)
   }
+
   const deleteCell = document.getElementsByClassName('toDelete')
   for (let i = 0; i < deleteCell.length; i++) {
     const deleteIcon = new Image()
@@ -34,7 +45,6 @@ export default function generateTable () {
     deleteCell[i].appendChild(deleteIcon)
     deleteCell[i].addEventListener('click', function () {
       myTasks.splice(i, 1)
-      console.log(myTasks)
       generateTable()
     })
   }
