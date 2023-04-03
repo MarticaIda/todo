@@ -2,14 +2,14 @@
 
 import './style.css'
 import openModal from './modal'
-// import generateTable from './dom_build'
+import generateTable from './dom_build'
 
 export const myTasks = []
 // const myProjects = []
 
 export const taskActions = {
-  changeContent (newContent) {
-    return (this.content = newContent)
+  changeContent (newName) {
+    return (this.name = newName)
   },
   changeDetails (newDetails) {
     return (this.details = newDetails)
@@ -27,16 +27,17 @@ export const taskActions = {
 
 export function createTask () {
   const task = Object.create(taskActions)
-  const content = document.getElementById('task')
+  const name = document.getElementById('task')
   const details = document.getElementById('details')
   const dueDate = document.getElementById('dueDate')
   const priority = document.getElementById('priority')
-  task.content = content.value
+  task.name = name.value
   task.details = details.value
   task.dueDate = dueDate.value
   task.priority = priority.value
   task.toDelete = false
   myTasks.push(task)
+  generateTable(myTasks)
 }
 
 openModal()
