@@ -1,7 +1,7 @@
 // modal logic goes here
 
 import { createTask, myTasks } from './index'
-import generateTable from './dom_build'
+// import generateTable from './dom_build'
 
 export default function openModal () {
   const form = document.querySelector('form')
@@ -17,7 +17,7 @@ export default function openModal () {
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     createTask()
-    generateTable(myTasks)
+    // generateTable(myTasks)
     form.reset()
     modal.style.display = 'none'
   })
