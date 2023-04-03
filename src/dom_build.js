@@ -6,7 +6,8 @@ import BinIcon from './recycle-bin.png'
 export default function generateTable () {
   const main = document.querySelector('#main')
   const table = document.querySelector('table')
-  table.textContent = ''
+  const tbody = document.querySelector('tbody')
+  tbody.textContent = ''
   for (const task of myTasks) {
     const row = document.createElement('tr')
 
@@ -57,7 +58,7 @@ export default function generateTable () {
         data.textContent = task[entry]
       }
     })
-    table.appendChild(row)
+    tbody.appendChild(row)
   }
 
   const deleteCell = document.getElementsByClassName('toDelete')
