@@ -1,10 +1,16 @@
 import './style.css'
-import { projectList, createTodo, getAllTodos, getProjectTodos } from './createTodo'
+import {
+  projectList,
+  createTodo,
+  getAllTodos,
+  getProjectTodos
+} from './createTodo'
 // import BinIcon from './recycle-bin.png'
 
 const todoList = getAllTodos()
+const projectElement = document.getElementById('project')
 export function getProjectName () {
-  const project = document.getElementById('project').value
+  const project = projectElement.value
   return project
 }
 const projectBar = document.querySelector('ul')
@@ -36,6 +42,7 @@ addProjectBtn.addEventListener('click', (e) => {
   }
   console.log(project)
   generateProjectBar(projectList)
+  projectElement.value = ''
 })
 
 const getTodoInput = () => {
