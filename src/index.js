@@ -1,36 +1,30 @@
-import './style.css'
-import {
-  projectList,
-  createTodo,
-  getAllTodos,
-  getProjectTodos
-} from './createTodo'
-// import BinIcon from './recycle-bin.png'
+// add date added property?
+// make todos sortable by dueDate and priority
+// make projects editable and removable
 
-const todoList = getAllTodos()
+import './style.css'
+import { projectList, createTodo } from './createTodo'
+import BinIcon from './recycle-bin.png'
+
 const projectElement = document.getElementById('project')
-export function getProjectName () {
-  const project = projectElement.value
-  return project
-}
 const projectBar = document.querySelector('ul')
 const projectHeader = document.querySelector('h1')
 const form = document.querySelector('form')
 const openBtn = document.querySelector('#btnOpen')
 const modal = document.querySelector('#modal')
 const closeBtn = document.querySelector('#btnClose')
-modal.style.display = 'none'
 const addProjectBtn = document.getElementById('addProject')
 const nameEl = document.getElementById('task')
 const detailsEl = document.getElementById('details')
 const dueDateEl = document.getElementById('dueDate')
 const priorityEl = document.getElementById('priority')
+const viewAllTodosBtn = document.querySelector('#viewAllBtn')
+let projectName
 
+// new project input
 addProjectBtn.addEventListener('click', (e) => {
   e.preventDefault()
-  console.log('add project button clicked')
-  const project = getProjectName()
-  console.log(project)
+  const project = projectElement.value
   if (project === '') {
     alert('Please enter a project name')
     return
@@ -40,12 +34,14 @@ addProjectBtn.addEventListener('click', (e) => {
   } else {
     projectList[project] = []
   }
-  console.log(project)
   generateProjectBar(projectList)
   projectElement.value = ''
 })
 
-const getTodoInput = () => {
+modal.style.display = 'none'
+
+// new todo input
+const todoInput = () => {
   openBtn.addEventListener('click', function () {
     modal.style.display = 'block'
   })
@@ -61,8 +57,7 @@ const getTodoInput = () => {
       alert('Please enter a task name')
       return
     }
-
-    createTodo(name, details, dueDate, priority)
+    createTodo(name, details, dueDate, priority, false, projectName)
     form.reset()
     modal.style.display = 'none'
   })
@@ -72,10 +67,10 @@ const getTodoInput = () => {
     form.reset()
   })
 }
-getTodoInput()
+todoInput()
 
+// side bar and project selection
 function generateProjectBar () {
-  console.log('genetate project bar')
   projectBar.textContent = ''
   for (const project in projectList) {
     const listItem = document.createElement('li')
@@ -83,29 +78,23 @@ function generateProjectBar () {
     projectBar.appendChild(listItem)
     listItem.addEventListener('click', () => {
       projectHeader.textContent = project
-      const currentProject = getProjectTodos(project)
-      generateProject(currentProject)
+      projectName = project
+      generateTable(projectList[project])
     })
   }
 }
 
 const tbody = document.querySelector('tbody')
 
-export function generateProject (currentProject) {
+// rendering todos in one project
+export function generateTable (project) {
   tbody.textContent = ''
-  for (const todo of currentProject) {
-    domBuild(todo)
-  }
-  console.log(projectList)
-}
-
-export function generateAll () {
-  tbody.textContent = ''
-  for (const todo of todoList) {
+  for (const todo of project) {
     domBuild(todo)
   }
 }
 
+// general table rendering logic
 const domBuild = (todo) => {
   const row = document.createElement('tr')
 
@@ -124,9 +113,16 @@ const domBuild = (todo) => {
       option.text = options[i]
       select.appendChild(option)
     }
+    const deleteIcon = new Image()
+    deleteIcon.src = BinIcon
+    if (data.classList.contains('toDelete')) {
+      data.textContent = ''
+      data.appendChild(deleteIcon)
+    }
     data.addEventListener('click', addInput)
     input.addEventListener('change', saveInput)
     select.addEventListener('change', saveSelect)
+    deleteIcon.addEventListener('click', addInput)
 
     function addInput (event) {
       if (event.target !== this) {
@@ -140,6 +136,9 @@ const domBuild = (todo) => {
       } else if (data.classList.contains('priority')) {
         select.setAttribute('value', todo[entry])
         data.appendChild(select)
+      } else if (data.classList.contains('toDelete')) {
+        todo[entry] = true
+        deleteTodo()
       } else {
         input.setAttribute('type', 'text')
         input.setAttribute('value', todo[entry])
@@ -158,16 +157,30 @@ const domBuild = (todo) => {
   })
   tbody.appendChild(row)
 }
-// const deleteEntries = () => {
-//   const deleteCell = document.getElementsByClassName('toDelete')
-//   for (let i = 0; i < deleteCell.length; i++) {
-//     const deleteIcon = new Image()
-//     deleteIcon.src = BinIcon
-//     deleteCell[i].textContent = ''
-//     deleteCell[i].appendChild(deleteIcon)
-//     deleteCell[i].addEventListener('click', function () {
-//       x.splice(i, 1)
-//       generateTable()
-//     })
-//   }
-// }
+
+function deleteTodo () {
+  for (const project in projectList) {
+    const todos = projectList[project]
+    for (let i = 0; i < todos.length; i++) {
+      const todo = todos[i]
+      if (todo.toDelete) {
+        todos.splice(i, 1)
+        i--
+      }
+    }
+    if (projectHeader.textContent === 'All todos') {
+      generateTable(getAllTodos())
+    } else {
+      generateTable(projectList[project])
+    }
+  }
+}
+viewAllTodosBtn.addEventListener('click', () => {
+  generateTable(getAllTodos())
+  projectHeader.textContent = 'All todos'
+})
+
+function getAllTodos () {
+  const allTodos = Object.values(projectList).flatMap((array) => array)
+  return allTodos
+}
