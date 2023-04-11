@@ -45,7 +45,7 @@ nav {
 }
 
 li {
-list-style: none;
+  list-style: none;
 }
 
 main {
@@ -53,7 +53,7 @@ main {
   flex: 3;
 }
 
-modal{
+modal {
   display: none;
 }
 
@@ -69,4 +69,9 @@ td {
   text-align: justify;
   padding: 1rem;
   border-bottom: 1px solid #ddd;
+}
+
+img {
+  width: 15px;
+  height: 15px;
 }
