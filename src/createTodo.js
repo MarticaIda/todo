@@ -1,4 +1,4 @@
-import { generateProject, getProjectName } from './index.js'
+import { generateTable } from './index.js'
 
 const Todo = (name, details, dueDate, priority, toDelete = false) => {
   return {
@@ -10,7 +10,6 @@ const Todo = (name, details, dueDate, priority, toDelete = false) => {
   }
 }
 
-const todoList = []
 export const projectList = {}
 
 export function createTodo (
@@ -22,15 +21,12 @@ export function createTodo (
   project = 'My Todos'
 ) {
   const todo = Todo(name, details, dueDate, priority, toDelete)
-  todoList.push(todo)
-  project = getProjectName()
   if (projectList[project]) {
     projectList[project].push(todo)
   } else {
     projectList[project] = [todo]
   }
-  generateProject(projectList[project])
+  generateTable(projectList[project])
 }
 
-export const getAllTodos = () => todoList
-export const getProjectTodos = (project) => projectList[project]
+// export const getProjectTodos = (project) => projectList[project]
