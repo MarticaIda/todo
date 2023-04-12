@@ -28,5 +28,3 @@ export function createTodo (
   }
   generateTable(projectList[project])
 }
-
-// export const getProjectTodos = (project) => projectList[project]
