@@ -99,12 +99,6 @@ li {
   padding-bottom: var(--padding-item);
 }
 
-#editBtn{
-  background-image: url(./edit.png);
-  height: 20px;
-  width: 20px;
-}
-
 main {
   padding: var(--padding);
   flex: 3;
