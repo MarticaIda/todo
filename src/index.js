@@ -104,11 +104,19 @@ function generateProjectBar () {
         alert('Project already exists')
       } else {
         projectList[newProjectName] = projectList[project]
-        console.log(projectList)
         delete projectList[project]
-        console.log(projectList)
         generateProjectBar()
         generateTable(projectList[newProjectName])
+      }
+    })
+    const deleteBtn = document.createElement('button')
+    deleteBtn.setAttribute('id', 'deleteBtn')
+    projectContainer.appendChild(deleteBtn)
+    deleteBtn.addEventListener('click', () => {
+      const confirmed = confirm('Are you sure you want to delete this project?')
+      if (confirmed) {
+        delete projectList[project]
+        generateProjectBar()
       }
     })
   }
