@@ -4,7 +4,8 @@
 
 import './style.css'
 import { projectList, createTodo } from './createTodo'
-import BinIcon from './recycle-bin.png'
+import BinImg from './recycle-bin.png'
+import EditImg from './edit.png'
 
 const projectElement = document.getElementById('project')
 const projectBar = document.querySelector('ul')
@@ -77,10 +78,10 @@ function generateProjectBar () {
     projectContainer.setAttribute('class', 'projectContainer')
     const listItem = document.createElement('li')
     listItem.textContent = project
-    const editBtn = document.createElement('button')
-    editBtn.setAttribute('id', 'editBtn')
+    const editIcon = new Image()
+    editIcon.src = EditImg
     projectContainer.appendChild(listItem)
-    projectContainer.appendChild(editBtn)
+    projectContainer.appendChild(editIcon)
     projectBar.appendChild(projectContainer)
     const input = document.createElement('input')
     listItem.addEventListener('click', () => {
@@ -88,7 +89,7 @@ function generateProjectBar () {
       projectName = project
       generateTable(projectList[project])
     })
-    editBtn.addEventListener('click', () => {
+    editIcon.addEventListener('click', () => {
       input.setAttribute('type', 'text')
       input.setAttribute('value', project)
       listItem.textContent = ''
@@ -109,10 +110,10 @@ function generateProjectBar () {
         generateTable(projectList[newProjectName])
       }
     })
-    const deleteBtn = document.createElement('button')
-    deleteBtn.setAttribute('id', 'deleteBtn')
-    projectContainer.appendChild(deleteBtn)
-    deleteBtn.addEventListener('click', () => {
+    const deleteIcon = new Image()
+    deleteIcon.src = BinImg
+    projectContainer.appendChild(deleteIcon)
+    deleteIcon.addEventListener('click', () => {
       const confirmed = confirm('Are you sure you want to delete this project?')
       if (confirmed) {
         delete projectList[project]
@@ -152,7 +153,7 @@ const domBuild = (todo) => {
       select.appendChild(option)
     }
     const deleteIcon = new Image()
-    deleteIcon.src = BinIcon
+    deleteIcon.src = BinImg
     if (data.classList.contains('toDelete')) {
       data.textContent = ''
       data.appendChild(deleteIcon)
