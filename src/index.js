@@ -69,24 +69,54 @@ const todoInput = () => {
 }
 todoInput()
 
-// side bar and project selection
+// render project list and project selection
 function generateProjectBar () {
   projectBar.textContent = ''
   for (const project in projectList) {
+    const projectContainer = document.createElement('div')
+    projectContainer.setAttribute('class', 'projectContainer')
     const listItem = document.createElement('li')
     listItem.textContent = project
-    projectBar.appendChild(listItem)
+    const editBtn = document.createElement('button')
+    editBtn.setAttribute('id', 'editBtn')
+    projectContainer.appendChild(listItem)
+    projectContainer.appendChild(editBtn)
+    projectBar.appendChild(projectContainer)
+    const input = document.createElement('input')
     listItem.addEventListener('click', () => {
       projectHeader.textContent = project
       projectName = project
       generateTable(projectList[project])
+    })
+    editBtn.addEventListener('click', () => {
+      input.setAttribute('type', 'text')
+      input.setAttribute('value', project)
+      listItem.textContent = ''
+      listItem.appendChild(input)
+    })
+    input.addEventListener('change', () => {
+      const newProjectName = input.value
+      if (newProjectName === '') {
+        alert('Please enter a project name')
+        return
+      }
+      if (projectList[newProjectName]) {
+        alert('Project already exists')
+      } else {
+        projectList[newProjectName] = projectList[project]
+        console.log(projectList)
+        delete projectList[project]
+        console.log(projectList)
+        generateProjectBar()
+        generateTable(projectList[newProjectName])
+      }
     })
   }
 }
 
 const tbody = document.querySelector('tbody')
 
-// rendering todos in one project
+// rendering todos in a table
 export function generateTable (project) {
   tbody.textContent = ''
   for (const todo of project) {
@@ -158,6 +188,7 @@ const domBuild = (todo) => {
   tbody.appendChild(row)
 }
 
+// delete todo and render table
 function deleteTodo () {
   for (const project in projectList) {
     const todos = projectList[project]
@@ -175,6 +206,8 @@ function deleteTodo () {
     }
   }
 }
+
+// view all todos from all projects
 viewAllTodosBtn.addEventListener('click', () => {
   generateTable(getAllTodos())
   projectHeader.textContent = 'All todos'
