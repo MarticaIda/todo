@@ -13,21 +13,23 @@
     <div id="container">
       <nav>
         <h2>My projects</h2>
-        <ul></ul>
-        <label for="project"></label>
-        <input type="text" id="project" placeholder="Add new project..." />
-        <button id="addProject">Add</button>
+        <ul>
+        </ul>
+        <div id="projectAddContainer">
+          <input type="text" id="project" placeholder="Add new project..." />
+          <button id="addProject">Add</button>
+        </div>
         <button id="viewAllBtn">View all todos</button>
       </nav>
       <main id="main">
         <table>
-          <colgroup>
+          <!-- <colgroup>
             <col class="text" />
             <col class="text" />
             <col class="date" />
             <col class="text" />
             <col class="bin" />
-          </colgroup>
+          </colgroup> -->
           <thead>
             <th class="text">Todo</th>
             <th class="text">Details</th>
@@ -42,7 +44,7 @@
         </div>
         <div id="modal">
           <div class="form-container">
-            <form class="form-content" action="" method="post">
+            <form action="" method="post">
               <label for="task">Task</label>
               <input type="text" id="task" name="task" required />
               <label for="details">Details</label>
@@ -57,9 +59,9 @@
                 <option value="no rush">No rush</option>
               </select>
               <button id="submit" type="submit" value="add">Add</button>
-              <button id="btnClose" type="button">x</button>
+              <span id="btnClose">&times;</span>
             </form>
-          </div>
+          </div> 
         </div>
       </main>
     </div>
