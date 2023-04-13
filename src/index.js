@@ -1,9 +1,12 @@
 // add date added property?
 // make todos sortable by dueDate and priority
-// make projects editable and removable
+// view all todos in each project (probably just the title and duedate… perhaps changing color for different priorities)
+// expand a single todo to see/edit its details
+// setting todos as complete
+// change date format to mm/dd/yyyy
 
 import './style.css'
-import { projectList, createTodo } from './createTodo'
+import { projectList, createTodo, formatDate } from './createTodo'
 import BinImg from './recycle-bin.png'
 import EditImg from './edit.png'
 
@@ -186,8 +189,14 @@ const domBuild = (todo) => {
     }
 
     function saveInput () {
-      todo[entry] = input.value
-      data.textContent = todo[entry]
+      if (data.classList.contains('dueDate')) {
+        const date = formatDate(input.value)
+        todo[entry] = date
+        data.textContent = todo[entry]
+      } else {
+        todo[entry] = input.value
+        data.textContent = todo[entry]
+      }
     }
     function saveSelect () {
       todo[entry] = select.value
