@@ -79,7 +79,7 @@ nav {
   background-color: var(--side-color);
 }
 
-ul{
+ul {
   padding: var(--padding);
 }
 
@@ -158,6 +158,12 @@ table {
   table-layout: auto;
   width: 100%;
   padding-bottom: var(--padding);
+}
+
+th {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
 }
 
 td {
