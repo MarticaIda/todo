@@ -24,22 +24,16 @@
         <button id="viewAllBtn">View all todos</button>
       </nav>
       <main id="main">
-        <table>
-          <!-- <colgroup>
-            <col class="text" />
-            <col class="text" />
-            <col class="date" />
-            <col class="text" />
-            <col class="bin" />
-          </colgroup> -->
+        <table class="incomplete hidden">
           <thead>
             <th class="text">Todo</th>
             <th class="text">Details</th>
             <th class="date">Due date</th>
             <th class="text">Priority</th>
             <th class="bin">Delete?</th>
+            <th class="check">Done</th>
           </thead>
-          <tbody></tbody>
+          <tbody id="incompleteTBody"></tbody>
         </table>
         <div id="btnContainer">
           <button id="btnOpen" type="button">New todo</button>
@@ -65,6 +59,18 @@
             </form>
           </div>
         </div>
+        <h2 class="hidden">Completed todos</h2>
+        <table class="complete hidden">
+          <thead>
+            <th class="text">Todo</th>
+            <th class="text">Details</th>
+            <th class="date">Due date</th>
+            <th class="text">Priority</th>
+            <th class="bin">Delete?</th>
+            <!-- <th class="check">Done</th> -->
+          </thead>
+          <tbody id="completeTBody"></tbody>
+        </table>
       </main>
     </div>
     <footer>
