@@ -1,4 +1,4 @@
-import { generateTable } from './index.js'
+import { generateTable, incompleteTBody, incompleteTable } from './index.js'
 import { format, utcToZonedTime } from 'date-fns-tz'
 
 const Todo = (name, details, dueDate, priority, toDelete = false) => {
@@ -12,12 +12,16 @@ const Todo = (name, details, dueDate, priority, toDelete = false) => {
 }
 
 export const projectList = {}
+export const completedTodos = []
 
 export const formatDate = function (date) {
-  const dateInput = new Date(date)
-  const utcDate = utcToZonedTime(dateInput)
-  const formattedDate = format(utcDate, 'MM/dd/yyyy')
-  return formattedDate
+  if (!date) return ''
+  else {
+    const dateInput = new Date(date)
+    const utcDate = utcToZonedTime(dateInput)
+    const formattedDate = format(utcDate, 'MM/dd/yyyy')
+    return formattedDate
+  }
 }
 export function createTodo (
   name,
@@ -34,5 +38,5 @@ export function createTodo (
   } else {
     projectList[project] = [todo]
   }
-  generateTable(projectList[project])
+  generateTable(projectList[project], incompleteTable, incompleteTBody)
 }
