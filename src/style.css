@@ -35,9 +35,11 @@ footer {
   color: var(--text-color);
 }
 
-h2 {
+h2, caption {
   text-align: center;
+  font-size: medium;
   padding-bottom: var(--padding-item);
+  border-bottom: #ddd 1px solid;
 }
 
 nav {
@@ -91,8 +93,13 @@ table {
   padding-bottom: var(--padding);
 }
 
+table.complete{
+  padding-top: var(--padding);
+}
+
 th {
   text-align: left;
+  font-size: smaller;
   padding: 1rem;
   border-bottom: 1px solid #ddd;
 }
