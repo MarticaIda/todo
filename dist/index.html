@@ -8,17 +8,85 @@
   </head>
   <body>
     <header>
-      <h1>My To Dos</h1>
+      <h1>My Todos</h1>
     </header>
     <div id="container">
       <nav>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
-        consectetur!
+        <h2>My projects</h2>
+        <p class="disclaimer">
+          If you don't add any project your todos will be saved in 'My Todos'
+        </p>
+        <ul></ul>
+        <div class="projectContainer">
+          <input type="text" id="project" placeholder="Add new project..." />
+          <button id="addProject">Add</button>
+        </div>
+        <button id="viewAllBtn">View all todos</button>
       </nav>
       <main id="main">
-        <div id="todos"></div>
+        <div class="tableDiv">
+          <table class="incomplete hidden">
+            <caption class="projHead">My Todos</caption>
+            <thead>
+              <th class="text">Todo</th>
+              <th class="text">Details</th>
+              <th class="date">Due date</th>
+              <th class="text">Priority</th>
+              <th class="bin">Delete?</th>
+              <th class="check">Done</th>
+            </thead>
+            <tbody id="incompleteTBody"></tbody>
+          </table>
+        </div>
+        <div id="btnContainer">
+          <button id="btnOpen" type="button">New todo</button>
+        </div>
+        <div id="modal">
+          <div class="form-container">
+            <form action="" method="post">
+              <span id="btnClose">close</span>
+              <label for="task">Task</label>
+              <input type="text" id="task" name="task" required />
+              <label for="details">Details</label>
+              <input type="textbox" id="details" name="details" />
+              <label for="dueDate">Due date</label>
+              <input type="date" id="dueDate" name="dueDate" />
+              <label for="priority">Priority</label>
+              <select name="priority" id="priority">
+                <option value="yesterday">Yesterday</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+                <option value="no rush">No rush</option>
+              </select>
+              <button id="submit" type="submit" value="add">Add</button>
+            </form>
+          </div>
+        </div>
+        <div class="tableDiv">
+          <table class="complete hidden">
+            <caption class="">Completed todos</caption>
+            <thead>
+              <th class="text">Todo</th>
+              <th class="text">Details</th>
+              <th class="date">Due date</th>
+              <th class="text">Priority</th>
+              <th class="bin">Delete?</th>
+              <!-- need to let it get uncompleted -->
+              <!-- <th class="check">Done</th>  -->
+            </thead>
+            <tbody id="completeTBody"></tbody>
+          </table>
+        </div>
       </main>
     </div>
-    <footer>Copyright Maria Martinkous 2023</footer>
+    <footer>
+      <a href="https://iconscout.com/icons/edit" target="_blank">Edit Icon</a>
+      by
+      <a href="https://iconscout.com/contributors/lucia-gonzalez"
+        >Lucía González</a
+      >
+      on <a href="https://iconscout.com">IconScout</a>
+      <span>Copyright Maria Martinkous 2023</span>
+    </footer>
   <script defer src="main.js"></script></body>
 </html>
