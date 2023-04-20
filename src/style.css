@@ -21,13 +21,25 @@ body {
   height: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
+.container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "nav main"
+    "footer footer";
+}
+
+header {
+  grid-area: header;
 }
 
 header,
 footer {
+  display: flex;
+  flex-direction: row;
   flex-shrink: 0;
   padding: 1rem;
   text-align: center;
@@ -35,7 +47,18 @@ footer {
   color: var(--text-color);
 }
 
-h2, caption {
+h1 {
+  margin: auto;
+}
+
+.footer {
+  grid-area: footer;
+  justify-content: space-between;
+  font-size: smaller;
+}
+
+h2,
+caption {
   text-align: center;
   font-size: medium;
   padding-bottom: var(--padding-item);
@@ -43,10 +66,10 @@ h2, caption {
 }
 
 nav {
+  grid-area: nav;
   display: flex;
   flex-direction: column;
   padding: var(--padding);
-  flex: 1;
   background-color: var(--side-color);
 }
 
@@ -82,8 +105,13 @@ button {
 }
 
 main {
-  padding: var(--padding);
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
   flex: 3;
+  flex: 1 0 auto;
+  padding: var(--padding);
+  background-color: var(--main-color);
 }
 
 form {
@@ -106,7 +134,7 @@ table {
   padding-bottom: var(--padding);
 }
 
-table.complete{
+table.complete {
   padding-top: var(--padding);
 }
 
@@ -129,18 +157,6 @@ td {
 img {
   width: 15px;
   height: 15px;
-}
-
-#container {
-  flex: 1 0 auto;
-  display: flex;
-  background-color: var(--main-color);
-}
-
-.disclaimer {
-  font-size: small;
-  color: var(--text-color);
-  text-align: left;
 }
 
 .projectContainer {

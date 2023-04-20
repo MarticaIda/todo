@@ -1,8 +1,5 @@
 // Description: This file is the entry point for the application. It contains the main logic for the application.
 
-// make todos sortable by dueDate and priority
-// expand a single todo to see/edit its details
-
 import './style.css'
 import {
   projectList,
@@ -251,8 +248,7 @@ function createRow (todo) {
     } else if (data.classList.contains('dueDate')) {
       addInput(data, todo, entry, 'date')
     } else if (data.classList.contains('priority')) {
-      const select = createSelect(todo[entry])
-      addInput(data, todo, entry, select)
+      createSelect(data, todo, entry)
     } else {
       addInput(data, todo, entry, 'text')
     }
@@ -269,6 +265,27 @@ function addDeleteInput (data, todo, entry, projects) {
     todo[entry] = true
     deleteTodo(projects)
   })
+}
+
+function createSelect (data, todo, entry) {
+  const select = document.createElement('select')
+  select.id = 'priority'
+  select.setAttribute('type', 'select')
+  const options = ['yesterday', 'high', 'low', 'no rush']
+  for (let i = 0; i < options.length; i++) {
+    const option = new Option(options[i], options[i])
+    if (option.value === todo[entry]) {
+      option.selected = true
+    }
+    select.appendChild(option)
+  }
+  select.addEventListener('change', () => {
+    todo[entry] = select.value
+    saveToLocalStorage(projectList, completedTodos)
+  })
+  data.textContent = ''
+  data.appendChild(select)
+  select.focus()
 }
 
 function addInput (data, todo, entry, type) {
@@ -289,23 +306,8 @@ function addInput (data, todo, entry, type) {
       todo[entry] = input.value
       data.textContent = todo[entry]
     }
+    saveToLocalStorage(projectList, completedTodos)
   })
-}
-
-function createSelect (selectedValue) {
-  const select = document.createElement('select')
-  select.id = 'priority'
-  const options = ['yesterday', 'high', 'low', 'no rush']
-  for (let i = 0; i < options.length; i++) {
-    const option = document.createElement('option')
-    option.value = options[i]
-    option.text = options[i]
-    if (selectedValue === options[i]) {
-      option.setAttribute('selected', 'selected')
-    }
-    select.appendChild(option)
-  }
-  return select
 }
 
 // delete todo and render table
