@@ -43,13 +43,26 @@ h2, caption {
 }
 
 nav {
+  display: flex;
+  flex-direction: column;
   padding: var(--padding);
   flex: 1;
   background-color: var(--side-color);
 }
 
-ul {
-  padding: var(--padding);
+.item {
+  padding: var(--padding-item);
+  margin-bottom: var(--padding-item);
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+.smallBtn {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: var(--additional-color);
 }
 
 li {
@@ -166,6 +179,14 @@ img {
 
 .hidden {
   display: none;
+}
+
+#btnContainer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--padding);
+  justify-content: center;
+  padding-top: var(--padding-item);
 }
 
 #btnOpen {
