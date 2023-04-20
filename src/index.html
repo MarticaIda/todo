@@ -24,17 +24,20 @@
         <button id="viewAllBtn">View all todos</button>
       </nav>
       <main id="main">
-        <table class="incomplete hidden">
-          <thead>
-            <th class="text">Todo</th>
-            <th class="text">Details</th>
-            <th class="date">Due date</th>
-            <th class="text">Priority</th>
-            <th class="bin">Delete?</th>
-            <th class="check">Done</th>
-          </thead>
-          <tbody id="incompleteTBody"></tbody>
-        </table>
+        <div class="tableDiv">
+          <table class="incomplete hidden">
+            <caption class="projHead">My Todos</caption>
+            <thead>
+              <th class="text">Todo</th>
+              <th class="text">Details</th>
+              <th class="date">Due date</th>
+              <th class="text">Priority</th>
+              <th class="bin">Delete?</th>
+              <th class="check">Done</th>
+            </thead>
+            <tbody id="incompleteTBody"></tbody>
+          </table>
+        </div>
         <div id="btnContainer">
           <button id="btnOpen" type="button">New todo</button>
         </div>
@@ -59,18 +62,21 @@
             </form>
           </div>
         </div>
-        <h2 class="hidden">Completed todos</h2>
-        <table class="complete hidden">
-          <thead>
-            <th class="text">Todo</th>
-            <th class="text">Details</th>
-            <th class="date">Due date</th>
-            <th class="text">Priority</th>
-            <th class="bin">Delete?</th>
-            <!-- <th class="check">Done</th> -->
-          </thead>
-          <tbody id="completeTBody"></tbody>
-        </table>
+        <div class="tableDiv">
+          <table class="complete hidden">
+            <caption class="">Completed todos</caption>
+            <thead>
+              <th class="text">Todo</th>
+              <th class="text">Details</th>
+              <th class="date">Due date</th>
+              <th class="text">Priority</th>
+              <th class="bin">Delete?</th>
+              <!-- need to let it get uncompleted -->
+              <!-- <th class="check">Done</th>  -->
+            </thead>
+            <tbody id="completeTBody"></tbody>
+          </table>
+        </div>
       </main>
     </div>
     <footer>
