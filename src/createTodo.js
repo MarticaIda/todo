@@ -1,4 +1,8 @@
+// Description: Creates a new todo object and adds it to the projectList
+
 import { generateTable, incompleteTBody, incompleteTable } from './index.js'
+import { saveToLocalStorage, getFromLocalStorage } from './localStorage.js'
+
 import { format, utcToZonedTime } from 'date-fns-tz'
 
 const Todo = (name, details, dueDate, priority, toDelete = false) => {
@@ -11,8 +15,7 @@ const Todo = (name, details, dueDate, priority, toDelete = false) => {
   }
 }
 
-export const projectList = {}
-export const completedTodos = []
+export const { projectList, completedTodos } = getFromLocalStorage()
 
 export const formatDate = function (date) {
   if (!date) return ''
@@ -38,5 +41,6 @@ export function createTodo (
   } else {
     projectList[project] = [todo]
   }
+  saveToLocalStorage(projectList, completedTodos)
   generateTable(projectList[project], incompleteTable, incompleteTBody)
 }
