@@ -1,6 +1,5 @@
 // Description: This file is the entry point for the application. It contains the main logic for the application.
 
-// load page with todos, projects, completed todos and Completed Todos header, My Todos project selected and on top
 // make todos sortable by dueDate and priority
 // expand a single todo to see/edit its details
 
@@ -11,7 +10,7 @@ import {
   formatDate,
   completedTodos
 } from './createTodo'
-import { saveToLocalStorage } from './localStorage'
+import { saveToLocalStorage, removeAllTodos } from './localStorage'
 import BinImg from './recycle-bin.png'
 import EditImg from './edit.png'
 
@@ -33,6 +32,7 @@ const addProjectBtn = document.getElementById('addProject')
 const viewAllTodosBtn = document.querySelector('#viewAllBtn')
 export const incompleteTBody = document.getElementById('incompleteTBody')
 const completeTBody = document.getElementById('completeTBody')
+const clearAllBtn = document.querySelector('#clearAllBtn')
 let projectName
 
 window.addEventListener('load', () => {
@@ -166,6 +166,7 @@ function handleDeleteProject (project) {
     delete projectList[project]
     saveToLocalStorage(projectList, completedTodos)
     generateProjectList()
+    generateTable(getAllTodos(), incompleteTable, incompleteTBody)
   }
 }
 
@@ -354,3 +355,11 @@ function generateAll () {
   generateTable(getAllTodos(), incompleteTable, incompleteTBody)
   generateTable(completedTodos, completeTable, completeTBody)
 }
+
+clearAllBtn.addEventListener('click', () => {
+  const confirmed = confirm('Are you sure you want to delete all todos?')
+  if (confirmed) {
+    removeAllTodos()
+    location.reload()
+  }
+})
