@@ -1,3 +1,6 @@
+// Description: This file is the entry point for the application. It contains the main logic for the application.
+
+// load page with todos, projects, completed todos and Completed Todos header, My Todos project selected and on top
 // make todos sortable by dueDate and priority
 // expand a single todo to see/edit its details
 
@@ -8,6 +11,7 @@ import {
   formatDate,
   completedTodos
 } from './createTodo'
+import { saveToLocalStorage } from './localStorage'
 import BinImg from './recycle-bin.png'
 import EditImg from './edit.png'
 
@@ -24,13 +28,23 @@ const priorityEl = document.getElementById('priority')
 const nav = document.querySelector('nav')
 const projectElement = document.getElementById('project')
 const projectBar = document.querySelector('ul')
-const projectHeader = document.querySelector('h1')
+const projectHeader = document.querySelector('.projHead')
 const addProjectBtn = document.getElementById('addProject')
 const viewAllTodosBtn = document.querySelector('#viewAllBtn')
 export const incompleteTBody = document.getElementById('incompleteTBody')
 const completeTBody = document.getElementById('completeTBody')
+let projectName = 'My Todos'
 
-let projectName
+window.addEventListener('load', () => {
+  if (!localStorage.getItem('data')) {
+    incompleteTable.style.display = 'none'
+    completeTable.style.display = 'none'
+  } else {
+    generateTable(getAllTodos(), incompleteTable, incompleteTBody)
+    generateTable(completedTodos, completeTable, completeTBody)
+    generateProjectList(projectList)
+  }
+})
 
 modal.style.display = 'none'
 
@@ -78,6 +92,7 @@ function handleProjectInput (event) {
     return
   }
   projectList[project] = []
+  saveToLocalStorage(projectList, completedTodos)
   generateProjectList(projectList)
   projectElement.value = ''
 }
@@ -132,6 +147,7 @@ function handleEditProject (project, listItem) {
     }
     projectList[newProjectName] = projectList[project]
     delete projectList[project]
+    saveToLocalStorage(projectList, completedTodos)
     generateProjectList()
     generateTable(projectList[newProjectName], incompleteTable, incompleteTBody)
   })
@@ -141,6 +157,7 @@ function handleDeleteProject (project) {
   const confirmed = confirm('Are you sure you want to delete this project?')
   if (confirmed) {
     delete projectList[project]
+    saveToLocalStorage(projectList, completedTodos)
     generateProjectList()
   }
 }
@@ -161,8 +178,6 @@ function displayErrorMessage (message) {
     error.remove()
   }, 3000)
 }
-
-// const tbody = document.querySelector('tbody')
 
 // rendering todos in a table
 export function generateTable (project, table, tbody) {
@@ -203,9 +218,12 @@ function displayRegularRow (todo, tbody) {
   input.addEventListener('change', () => {
     if (input.checked) {
       completedTodos.push(todo)
+      saveToLocalStorage(projectList, completedTodos)
       generateTable(completedTodos, completeTable, completeTBody)
       todo.toDelete = true
       deleteTodo(projectList)
+      todo.toDelete = false
+      saveToLocalStorage(projectList, completedTodos)
     }
   })
   tbody.appendChild(row)
@@ -240,7 +258,6 @@ function addDeleteInput (data, todo, entry, projects) {
   data.textContent = ''
   data.appendChild(deleteIcon)
   deleteIcon.addEventListener('click', () => {
-    console.log(projects)
     todo[entry] = true
     deleteTodo(projects)
   })
@@ -286,17 +303,16 @@ function createSelect (selectedValue) {
 // delete todo and render table
 function deleteTodo (projects) {
   if (projects === completedTodos) {
-    console.log(projects)
     for (let i = 0; i < projects.length; i++) {
       const todo = projects[i]
       if (todo.toDelete) {
         projects.splice(i, 1)
         i--
+        saveToLocalStorage(projectList, completedTodos)
       }
     }
     generateTable(completedTodos, completeTable, completeTBody)
   } else {
-    console.log(projects)
     for (const project in projects) {
       const todos = projects[project]
       for (let i = 0; i < todos.length; i++) {
@@ -304,6 +320,7 @@ function deleteTodo (projects) {
         if (todo.toDelete) {
           todos.splice(i, 1)
           i--
+          saveToLocalStorage(projectList, completedTodos)
         }
       }
       if (projectHeader.textContent === 'All todos') {
@@ -317,11 +334,16 @@ function deleteTodo (projects) {
 
 // view all todos from all projects
 viewAllTodosBtn.addEventListener('click', () => {
-  generateTable(getAllTodos(), incompleteTable, incompleteTBody)
+  generateAll()
   projectHeader.textContent = 'All todos'
 })
 
 function getAllTodos () {
   const allTodos = Object.values(projectList).flatMap((array) => array)
   return allTodos
+}
+
+function generateAll () {
+  generateTable(getAllTodos(), incompleteTable, incompleteTBody)
+  generateTable(completedTodos, completeTable, completeTBody)
 }
