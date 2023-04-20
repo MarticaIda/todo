@@ -33,12 +33,13 @@ const addProjectBtn = document.getElementById('addProject')
 const viewAllTodosBtn = document.querySelector('#viewAllBtn')
 export const incompleteTBody = document.getElementById('incompleteTBody')
 const completeTBody = document.getElementById('completeTBody')
-let projectName = 'My Todos'
+let projectName
 
 window.addEventListener('load', () => {
   if (!localStorage.getItem('data')) {
     incompleteTable.style.display = 'none'
     completeTable.style.display = 'none'
+    generateProjectList(projectList)
   } else {
     generateTable(getAllTodos(), incompleteTable, incompleteTBody)
     generateTable(completedTodos, completeTable, completeTBody)
@@ -100,6 +101,12 @@ function handleProjectInput (event) {
 // render project list and project selection
 function generateProjectList () {
   projectBar.textContent = ''
+
+  // Check if there are any projects in the projectList object
+  if (Object.keys(projectList).length === 0) {
+    // If there are no projects, create a default project called "My Todos"
+    projectList['My Todos'] = []
+  }
 
   for (const project in projectList) {
     const listItem = document.createElement('li')
