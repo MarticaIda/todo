@@ -16,6 +16,6 @@ export function getFromLocalStorage () {
   return { projectList, completedTodos }
 }
 
-// localstorage.removeItem('projectList')
-// localstorage.removeItem('completedTodos')
-// localstorage.clear()
+export function removeAllTodos () {
+  localStorage.clear()
+}
