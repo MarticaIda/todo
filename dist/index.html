@@ -13,20 +13,22 @@
     <div id="container">
       <nav>
         <h2>My projects</h2>
-        <p class="disclaimer">
-          If you don't add any project your todos will be saved in 'My Todos'
-        </p>
-        <ul></ul>
-        <div class="projectContainer">
+        <ul class="item"></ul>
+        <div class="item projectContainer">
           <input type="text" id="project" placeholder="Add new project..." />
           <button id="addProject">Add</button>
         </div>
-        <button id="viewAllBtn">View all todos</button>
+        <button id="viewAllBtn" class="item">View all todos</button>
+        <div id="btnContainer" class="item bottom">
+          <button id="clearAllBtn" class="smallBtn">Clear all</button>
+        </div>
       </nav>
       <main id="main">
         <div class="tableDiv">
           <table class="incomplete hidden">
-            <caption class="projHead">My Todos</caption>
+            <caption class="projHead">
+              My Todos
+            </caption>
             <thead>
               <th class="text">Todo</th>
               <th class="text">Details</th>
@@ -38,7 +40,7 @@
             <tbody id="incompleteTBody"></tbody>
           </table>
         </div>
-        <div id="btnContainer">
+        <div>
           <button id="btnOpen" type="button">New todo</button>
         </div>
         <div id="modal">
@@ -64,7 +66,9 @@
         </div>
         <div class="tableDiv">
           <table class="complete hidden">
-            <caption class="">Completed todos</caption>
+            <caption class="">
+              Completed todos
+            </caption>
             <thead>
               <th class="text">Todo</th>
               <th class="text">Details</th>
