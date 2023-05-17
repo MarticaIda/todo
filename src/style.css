@@ -6,8 +6,9 @@
   --additional-color: #e4a58f;
   --padding: 2rem;
   --padding-item: 0.25rem;
+  --padding-grid: 0.75rem;
   --border-radius: 5px;
-  --font: "Roboto", sans-serif;
+  --font: helvetica, sans-serif;
 }
 
 * {
@@ -83,7 +84,7 @@ nav {
 }
 
 .smallBtn {
-  font-size: 11px;
+  font-size: small;
   font-weight: 700;
   background-color: var(--additional-color);
 }
@@ -134,10 +135,6 @@ table {
   padding-bottom: var(--padding);
 }
 
-table.complete {
-  padding-top: var(--padding);
-}
-
 th {
   text-align: left;
   font-size: smaller;
@@ -145,11 +142,15 @@ th {
   border-bottom: 1px solid #ddd;
 }
 
+tr {
+  text-align: center;
+}
+
 td {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  text-align: justify;
+  text-align: left;
   padding: 1rem;
   border-bottom: 1px solid #ddd;
 }
@@ -167,11 +168,21 @@ img {
   padding-bottom: var(--padding-item);
 }
 
-#project {
+.projectItem {
+  border-bottom: 1px solid #ddd;
+}
+
+#project-input {
   padding: var(--padding-item);
 }
 
-#modal {
+.error {
+  display: none;
+}
+
+#inputModal,
+#helpModal,
+#popupModal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -183,7 +194,7 @@ img {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.form-container {
+.modalContainer {
   background-color: #fefefe;
   margin: 15% auto;
   padding: var(--padding);
@@ -205,11 +216,15 @@ img {
   padding-top: var(--padding-item);
 }
 
+#btnOpenHelp {
+  cursor: help;
+}
+
 #btnOpen {
   background-color: var(--side-color);
 }
 
-#btnClose {
+.btnClose {
   color: #aaa;
   /* float: right; */
   font-size: small;
@@ -220,6 +235,9 @@ img {
 #btnClose:focus {
   color: black;
   text-decoration: none;
+}
+
+.pointer {
   cursor: pointer;
 }
 
@@ -228,3 +246,114 @@ img {
   margin: 0 auto;
 }
 /* project name needs break if too long */
+
+#popupContainer {
+  display: grid;
+  /* grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(6, auto); */
+  /* gap: 1rem; */
+  grid-template-areas:
+    "labelProject  ...........   ........... ..........."
+    "todoProject   todoProject   todoProject labelCompleted"
+    "labelName     ...........   ........... todoCompleted"
+    "todoName      todoName      todoName    labelPriority"
+    "labelDetails  ...........   ........... todoPriority"
+    "todoDetails   todoDetails   todoDetails todoDetails"
+    "todoDetails   todoDetails   todoDetails todoDetails"
+    "labelCreated  ...........   ........... ..........."
+    "todoCreatedOn todoCreatedOn ........... ..........."
+    "labelDue      ...........   ........... ..........."
+    "todoDueDate   todoDueDate   ........... todoDelete";
+  align-content: end;
+  justify-items: start;
+}
+
+/* align and justify all popup elements */
+#popupContainer > * {
+  align-self: center;
+  justify-self: start;
+}
+
+.popupItemCont {
+  align-self: start;
+}
+
+.label {
+  font-size: xx-small;
+  padding-top: var(--padding-grid);
+}
+
+#todoProject {
+  grid-area: todoProject;
+  grid-column: span 3;
+  font-size: larger;
+  /* padding-bottom: var(--padding-grid); */
+  text-align: center;
+}
+
+#labelCompleted {
+  grid-area: labelCompleted;
+}
+
+#labelName {
+  grid-area: labelName;
+}
+
+#labelDetails {
+  grid-area: labelDetails;
+}
+
+#labelProject {
+  grid-area: labelProject;
+}
+
+#popupName {
+  grid-area: todoName;
+  grid-column: span 3;
+  /* padding-bottom: var(--padding-grid); */
+}
+
+#popupDetails {
+  grid-area: todoDetails;
+  grid-column: span 3;
+  grid-row: span 2;
+  /* padding-bottom: var(--padding-grid); */
+}
+
+#labelCreated {
+  grid-area: labelCreated;
+}
+
+#todoCreatedOn {
+  grid-area: todoCreatedOn;
+  /* padding-bottom: var(--padding-grid); */
+}
+
+#labelDue {
+  grid-area: labelDue;
+}
+
+#popupDueDate {
+  grid-area: todoDueDate;
+}
+
+#labelPriority {
+  grid-area: labelPriority;
+}
+
+#todoPriority {
+  grid-area: todoPriority;
+}
+
+#todoCompleted {
+  grid-area: todoCompleted;
+}
+
+#todoDelete {
+  grid-area: todoDelete;
+  justify-self: end;
+}
+
+input .completedInput {
+  margin: 0;
+}

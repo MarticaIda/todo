@@ -14,9 +14,11 @@ module.exports = {
     hot: true,
     compress: true,
     historyApiFallback: true
+    // watchContentBase: true
+    // contentBase: './dist'
   },
   output: {
-    filename: 'main.js',
+    filename: 'dist/main.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
@@ -28,6 +30,10 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource'
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader'
       }
     ]
   },
