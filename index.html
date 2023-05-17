@@ -8,9 +8,9 @@
   </head>
   <body>
     <div class="container">
-    <header>
-      <h1>My Todos</h1>
-    </header>
+      <header>
+        <h1>My Todos</h1>
+      </header>
       <nav>
         <h2>My projects</h2>
         <ul class="item"></ul>
@@ -18,6 +18,7 @@
           <input type="text" id="project" placeholder="Add new project..." />
           <button id="addProject">Add</button>
         </div>
+        <div class="error"></div>
         <button id="viewAllBtn" class="item">View all todos</button>
         <div id="btnContainer" class="item bottom">
           <button id="clearAllBtn" class="smallBtn">Clear all</button>
@@ -25,74 +26,115 @@
       </nav>
       <main id="main">
         <div class="tableDiv">
-          <table class="incomplete hidden">
+          <table class="todoTable hidden">
             <caption class="projHead">
               My Todos
             </caption>
             <thead>
-              <th class="text">Todo</th>
-              <th class="text">Details</th>
-              <th class="date">Due date</th>
-              <th class="text">Priority</th>
-              <th class="bin">Delete?</th>
-              <th class="check">Done</th>
+              <th class="text" id="dateCreatedSort">Todo</th>
+              <th class="date" id="dueDateSort">Due date</th>
+              <th class="text" id="prioritySort">Priority</th>
+              <th class="check" id="completedSort">Done</th>
             </thead>
-            <tbody id="incompleteTBody"></tbody>
+            <tbody id="tBody"></tbody>
           </table>
+        </div>
+        <div hidden class="modal" id="popupModal">
+          <div class="modalContainer">
+            <span id="btnClosePopup" class="btnClose">close</span>
+            <div id="popupContainer">
+              <label for="todoProject" class="label" id="labelProject"
+                >Project</label
+              >
+              <span id="todoProject" name="todoProject"></span>
+              <label for="todoPriority" class="label" id="labelPriority"
+                >Priority</label
+              >
+              <span id="todoPriority" name="todoPriority"></span>
+              <label for="popupName" class="label" id="labelName">Task</label>
+              <div id="popupName" name="popupName" class="clear popupItemCont">
+                <span id="todoName"></span>
+              </div>
+              <label for="popupDetails" class="label" id="labelDetails"
+                >Details</label
+              >
+              <div
+                id="popupDetails"
+                name="popupDetails"
+                class="clear popupItemCont"
+              >
+                <span id="todoDetails"></span>
+              </div>
+              <label for="todoCompleted" class="label" id="labelCompleted"
+                >Done</label
+              >
+              <div id="todoCompleted"></div>
+              <!-- <input
+                id="todoCompleted"
+                name="todoCompleted"
+                class="completeTodo"
+                type="checkbox"
+              /> -->
+              <label for="todoCreatedOn" class="label" id="labelCreated"
+                >Created on</label
+              >
+              <span
+                class="popupItemCont"
+                name="todoCreatedOn"
+                id="todoCreatedOn"
+              ></span>
+              <label for="popupDueDate" class="label" id="labelDue"
+                >Due on</label
+              >
+              <div
+                id="popupDueDate"
+                name="popupDueDate"
+                class="clear popupItemCont"
+              >
+                <span id="todoDueDate"></span>
+              </div>
+              <div id="todoDelete"></div>
+            </div>
+          </div>
         </div>
         <div>
           <button id="btnOpen" type="button">New todo</button>
         </div>
-        <div id="modal">
-          <div class="form-container">
+        <div hidden class="modal" id="inputModal">
+          <div class="modalContainer" id="inputContainer">
             <form action="" method="post">
-              <span id="btnClose">close</span>
-              <label for="task">Task</label>
-              <input type="text" id="task" name="task" required />
-              <label for="details">Details</label>
-              <input type="textbox" id="details" name="details" />
-              <label for="dueDate">Due date</label>
-              <input type="date" id="dueDate" name="dueDate" />
-              <label for="priority">Priority</label>
-              <select name="priority" id="priority">
-                <option value="yesterday">Yesterday</option>
-                <option value="high">High</option>
-                <option value="low">Low</option>
-                <option value="no rush">No rush</option>
+              <span id="btnCloseModal" class="btnClose">close</span>
+              <label for="input-task">Task</label>
+              <input type="text" id="input-task" name="input-task" required />
+              <label for="input-details">Details</label>
+              <textarea id="input-details" name="input-details"></textarea>
+              <label for="input-dueDate">Due date</label>
+              <input type="date" id="input-dueDate" name="input-dueDate" />
+              <label for="input-priority">Priority</label>
+              <select name="input-priority" id="input-priority">
+                <option value="Yesterday">Yesterday</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+                <option value="No rush">No rush</option>
               </select>
               <button id="submit" type="submit" value="add">Add</button>
             </form>
           </div>
         </div>
-        <div class="tableDiv">
-          <table class="complete hidden">
-            <caption class="">
-              Completed todos
-            </caption>
-            <thead>
-              <th class="text">Todo</th>
-              <th class="text">Details</th>
-              <th class="date">Due date</th>
-              <th class="text">Priority</th>
-              <th class="bin">Delete?</th>
-              <!-- need to let it get uncompleted -->
-              <!-- <th class="check">Done</th>  -->
-            </thead>
-            <tbody id="completeTBody"></tbody>
-          </table>
-        </div>
       </main>
-    <footer class="footer">
-      <div>
-        <a href="https://iconscout.com/icons/edit" target="_blank">Edit Icon</a>
-        by
-        <a href="https://iconscout.com/contributors/lucia-gonzalez"
-          >Lucía González</a
-        >
-        on <a href="https://iconscout.com">IconScout</a>
-      </div>
-      <span>Copyright Maria Martinkous 2023</span>
-    </footer>
+      <footer class="footer">
+        <div>
+          <a href="https://iconscout.com/icons/edit" target="_blank"
+            >Edit Icon</a
+          >
+          by
+          <a href="https://iconscout.com/contributors/lucia-gonzalez"
+            >Lucía González</a
+          >
+          on <a href="https://iconscout.com">IconScout</a>
+        </div>
+        <span>Copyright Maria Martinkous 2023</span>
+      </footer>
     </div>
-  <script defer src="main.js"></script></body>
+  <script defer src="dist/main.js"></script></body>
 </html>
