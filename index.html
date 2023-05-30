@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    />
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
     <title>To Do</title>
   </head>
   <body>
     <div class="grid">
       <header>
+        <button id="btn-open-nav" class="fas fa-bars" type="button"></button>
         <h1>My Todos</h1>
       </header>
       <nav>
@@ -21,13 +32,15 @@
             id="input-project"
             placeholder="Add new project..."
           />
-          <button id="add-project">Add</button>
+          <button id="add-project" type="button">Add</button>
         </div>
         <div class="error"></div>
-        <button id="btn-view-all">View all</button>
+        <button id="btn-view-all" type="button">View all</button>
         <div class="modal" id="help-modal">
           <div class="modal-container" id="help-container">
-            <button id="btn-close-help" class="btn-close pointer">close</button>
+            <button id="btn-close-help" class="btn-close pointer" type="button">
+              close
+            </button>
             <div id="help-text">
               # You can create a new todo by clicking
               <strong>'New todo'</strong> button. <br />
@@ -64,12 +77,14 @@
         </div>
         <div class="btn-container item bottom">
           <button id="btn-open-help" type="button">Help?</button>
-          <button id="btn-clear-all" class="btn-contrast">Clear all</button>
+          <button id="btn-clear-all" class="btn-contrast" type="button">
+            Clear all
+          </button>
         </div>
       </nav>
-      <main id="main">
-        <div class="table-div">
-          <table class="todo-table hidden">
+      <main>
+        <div id="table-containerr">
+          <table id="todo-table">
             <caption class="proj-head">
               My Todos
             </caption>
@@ -108,45 +123,45 @@
         </div>
         <div class="modal" id="popup-modal">
           <div class="modal-container">
-            <button id="btn-close-popup" class="btn-close pointer">
+            <button
+              id="btn-close-popup"
+              class="btn-close pointer"
+              type="button"
+            >
               close
             </button>
             <div id="popup-container">
-              <label id="project-cell">
-                Project
-                <span class="popup-element" id="todo-project"></span>
-              </label>
-              <label id="priority-cell"
-                >Priority
-                <span id="todo-priority" class="pointer popup-element"></span
-              ></label>
-              <label id="todo-cell"
-                >Task
+              <!-- <label id="project-cell"> -->
+              <span id="todo-project" class="popup-element"></span>
+              <!-- </label> -->
+              <label id="todo-cell">
                 <span
                   id="todo-name"
                   class="clear popup-item-cont popup-element"
                 ></span>
               </label>
-              <label id="details-cell"
-                >Details
+              <label id="details-cell">
                 <span
                   id="todo-details"
                   class="clear popup-item-cont popup-element"
                 ></span>
               </label>
-              <label id="completed-cell"
-                >Done
+              <label id="priority-cell">
+                <span id="todo-priority" class="pointer popup-element"></span
+              ></label>
+              <label id="completed-cell">
+                <span class="empty-label">Done</span>
                 <span id="todo-completed" class="popup-element"></span>
               </label>
-              <label id="created-on-cell"
-                >Created on
+              <label id="created-on-cell">
+                <span class="empty-label">Created on</span>
                 <span
                   class="popup-item-cont popup-element"
                   id="todo-created-on"
                 ></span
               ></label>
-              <label id="due-date-cell"
-                >Due on
+              <label id="due-date-cell">
+                <span class="empty-label">Due date</span>
                 <span
                   id="todo-due-date"
                   class="clear popup-item-cont popup-element"
@@ -161,7 +176,11 @@
         </div>
         <div class="modal" id="input-modal">
           <div class="modal-container" id="input-container">
-            <button id="btn-close-modal" class="btn-close pointer">
+            <button
+              id="btn-close-modal"
+              class="btn-close pointer"
+              type="button"
+            >
               close
             </button>
             <form action="" method="post">
@@ -194,7 +213,7 @@
           >
           on <a href="https://iconscout.com">IconScout</a>
         </div>
-        <span>Copyright Maria Martinkous 2023</span>
+        <div>Copyright Maria Martinkous 2023</div>
       </footer>
     </div>
   <script defer src="dist/main.js"></script></body>
