@@ -1,48 +1,55 @@
 // Description: This file is the entry point for the application. It contains the main logic for the application.
 
 import './style.css'
+// import $ from 'jquery'
+// import select2 from 'select2'
+// import 'select2/dist/css/select2.css'
 import { projectList, createTodo, formatDate } from './createTodo'
 import { saveToLocalStorage, removeAllTodos } from './localStorage'
 // import { format, utcToZonedTime } from 'date-fns-tz'
 import BinImg from './recycle-bin.png'
 import EditImg from './edit.png'
 
-const table = document.querySelector('.todoTable')
+const table = document.querySelector('#todo-table')
 const form = document.querySelector('form')
-const openBtn = document.querySelector('#btnOpen')
-const inputModal = document.querySelector('#inputModal')
-const popupModal = document.querySelector('#popupModal')
-const helpModal = document.querySelector('#helpModal')
-const popupContainer = document.querySelector('#popupContainer')
-const closeModalBtn = document.querySelector('#btnCloseModal')
-const closePopupBtn = document.querySelector('#btnClosePopup')
-const openHelpBtn = document.querySelector('#btnOpenHelp')
-const closeHelpBtn = document.querySelector('#btnCloseHelp')
+const openBtn = document.querySelector('#btn-open-input')
+const openNavBtn = document.querySelector('#btn-open-nav')
+const nav = document.querySelector('nav')
+const inputModal = document.querySelector('#input-modal')
+const popupModal = document.querySelector('#popup-modal')
+const helpModal = document.querySelector('#help-modal')
+const popupContainer = document.querySelector('#popup-container')
+const closeModalBtn = document.querySelector('#btn-close-modal')
+const closePopupBtn = document.querySelector('#btn-close-popup')
+const openHelpBtn = document.querySelector('#btn-open-help')
+const closeHelpBtn = document.querySelector('#btn-close-help')
 const nameEl = document.getElementById('input-task')
 const detailsEl = document.getElementById('input-details')
-const dueDateEl = document.getElementById('input-dueDate')
+const dueDateEl = document.getElementById('input-due-date')
 const priorityEl = document.getElementById('input-priority')
-const projectElement = document.getElementById('project-input')
+const projectElement = document.getElementById('input-project')
 const projectBar = document.querySelector('ul')
-const projectHeader = document.querySelector('.projHead')
-const addProjectBtn = document.getElementById('addProject')
-const viewAllTodosBtn = document.querySelector('#viewAllBtn')
-const tBody = document.getElementById('tBody')
-const clearAllBtn = document.querySelector('#clearAllBtn')
-const prioritySorter = document.getElementById('prioritySort')
-const dueDateSorter = document.getElementById('dueDateSort')
-const dateCreatedSorter = document.getElementById('dateCreatedSort')
-const completedSorter = document.getElementById('completedSort')
+const projectHeader = document.querySelector('.proj-head')
+const addProjectBtn = document.getElementById('add-project')
+const viewAllTodosBtn = document.querySelector('#btn-view-all')
+const tBody = document.getElementById('tbody')
+const clearAllBtn = document.querySelector('#btn-clear-all')
+const prioritySorter = document.getElementById('priority-sort')
+const dueDateSorter = document.getElementById('due-date-sort')
+const dateCreatedSorter = document.getElementById('date-created-sort')
+const completedSorter = document.getElementById('completed-sort')
 let projectName
-const dispTodoProject = document.querySelector('#todoProject')
-const dispTodoName = document.querySelector('#todoName')
-const dispTodoDetails = document.querySelector('#todoDetails')
-const dispTodoDueDate = document.querySelector('#todoDueDate')
-const dispTodoPriority = document.querySelector('#todoPriority')
-const dispTodoCompleted = document.querySelector('#todoCompleted')
-const dispTodoDelete = document.querySelector('#todoDelete')
-const dispTodoCreatedOn = document.querySelector('#todoCreatedOn')
+const dispTodoProject = document.querySelector('#todo-project')
+const dispTodoName = document.querySelector('#todo-name')
+const dispTodoDetails = document.querySelector('#todo-details')
+const dispTodoDueDate = document.querySelector('#todo-due-date')
+const dispTodoPriority = document.querySelector('#todo-priority')
+const dispTodoCompleted = document.querySelector('#todo-completed')
+const dispTodoDelete = document.querySelector('#todo-delete')
+const dispTodoCreatedOn = document.querySelector('#todo-created-on')
 const error = document.querySelector('.error')
+const mediaQuery = window.matchMedia('(min-width: 675px)')
+
 let orderP = true
 let orderDD = true
 let orderDC = true
@@ -54,6 +61,15 @@ openHelpBtn.addEventListener('click', function () {
 closeHelpBtn.addEventListener('click', function () {
   helpModal.style.display = 'none'
 })
+
+openNavBtn.addEventListener('click', toggleNav)
+
+function toggleNav () {
+  openNavBtn.classList.toggle('fa-bars')
+  openNavBtn.classList.toggle('fa-times')
+  nav.classList.toggle('nav-active')
+}
+
 window.addEventListener('click', function (event) {
   if (event.target === helpModal) {
     helpModal.style.display = 'none'
@@ -147,11 +163,9 @@ function generateProjectList () {
 
   for (const project in projectList) {
     const listItem = document.createElement('li')
+    listItem.setAttribute('class', 'li-project')
     const projectContainer = document.createElement('div')
-    projectContainer.setAttribute(
-      'class',
-      'projectContainer projectItem pointer'
-    )
+    projectContainer.setAttribute('class', 'project-item pointer')
 
     listItem.textContent = project
     listItem.addEventListener('click', (e) => {
@@ -183,12 +197,18 @@ function handleEditProject (project, listItem, projectContainer) {
   let input = projectContainer.querySelector('input[type="text"]')
   const cancelButton = createCancelButton()
   const saveButton = createSaveButton()
+  const buttonContainer = document.createElement('div')
+  buttonContainer.setAttribute('class', 'btn-container ')
   if (!input) {
     input = createInput(project, 'text')
     listItem.textContent = ''
     listItem.before(input)
-    listItem.before(saveButton)
-    listItem.before(cancelButton)
+    listItem.before(buttonContainer)
+    buttonContainer.appendChild(saveButton)
+    buttonContainer.appendChild(cancelButton)
+    projectContainer.querySelectorAll('img').forEach((img) => {
+      img.style.display = 'none'
+    })
   }
 
   saveButton.addEventListener('click', () => {
@@ -234,12 +254,14 @@ function createInput (value, type) {
 function createSaveButton () {
   const saveButton = document.createElement('button')
   saveButton.textContent = 'Save'
+  saveButton.setAttribute('class', 'edit')
   return saveButton
 }
 
 function createCancelButton () {
   const cancelButton = document.createElement('button')
   cancelButton.textContent = 'Cancel'
+  cancelButton.setAttribute('class', 'edit')
   return cancelButton
 }
 
@@ -282,8 +304,8 @@ function displayRow (todo, project) {
   const row = createRow(todo, project)
   tBody.appendChild(row)
   row.addEventListener('click', (event) => {
-    const completedInput = document.querySelector('.completedInput')
-    if (event.target.className === 'completedInput') {
+    const completedInput = document.querySelector('.input-completed')
+    if (event.target.className === 'input-completed') {
       popupModal.style.display = 'none'
       markAsCompleted(todo, completedInput)
     } else {
@@ -295,7 +317,13 @@ function createRow (todo, project) {
   const row = document.createElement('tr')
   row.setAttribute('class', 'pointer')
   const nameCell = createTableCell(todo.name, 'name')
-  const dueDateCell = createTableCell(todo.dueDate, 'dueDate')
+  nameCell.setAttribute('class', 'truncated-text name')
+  if (mediaQuery.matches) {
+    truncateText(nameCell, 4)
+  } else {
+    truncateText(nameCell, 2)
+  }
+  const dueDateCell = createTableCell(todo.dueDate, 'due-date')
   const priorityCell = createTableCell(todo.priority, 'priority')
   if (todo.priority === 'Yesterday') {
     priorityCell.style.color = 'red'
@@ -320,6 +348,12 @@ function createRow (todo, project) {
   return row
 }
 
+function truncateText (element, wordLimit) {
+  const words = element.textContent.split(' ')
+  const truncatedText = words.slice(0, wordLimit).join(' ')
+  element.textContent = truncatedText
+}
+
 function createTableCell (text, className) {
   const cell = document.createElement('td')
   cell.textContent = text
@@ -330,7 +364,8 @@ function createTableCell (text, className) {
 function createCompletedInput (todo) {
   const input = document.createElement('input')
   input.setAttribute('type', 'checkbox')
-  input.setAttribute('class', 'completedInput')
+  input.setAttribute('class', 'input-completed')
+  input.setAttribute('name', 'input-completed')
   input.checked = todo.isCompleted
   return input
 }
@@ -519,29 +554,32 @@ function handleDeleteTodoListener (todo, project) {
 }
 
 function handleTodoListeners (todo) {
-  dispTodoName.after(
+  dispTodoName.before(
     createIcon(
       EditImg,
       () => handleEditTodo(todo, 'text', 'name', dispTodoName),
       'Edit'
     )
   )
-  dispTodoDetails.after(
+  dispTodoDetails.before(
     createIcon(
       EditImg,
       () => handleEditTodo(todo, 'textarea', 'details', dispTodoDetails),
       'Edit'
     )
   )
-  dispTodoDueDate.after(
+  dispTodoDueDate.before(
     createIcon(
       EditImg,
       () => handleEditTodo(todo, 'date', 'dueDate', dispTodoDueDate),
       'Edit'
     )
   )
-  dispTodoPriority.addEventListener('click', () => {
-    handleSelect(dispTodoPriority, todo)
+  dispTodoPriority.addEventListener('click', (e) => {
+    // e.stopPropagation()
+    if (e.target === dispTodoPriority) {
+      handleSelect(dispTodoPriority, todo)
+    }
   })
 }
 
@@ -562,27 +600,46 @@ window.addEventListener('click', function (event) {
 })
 
 function handleEditTodo (todo, type, prop, element) {
+  // removeEditIcons()
   let originalValue = todo[prop]
   const cancelButton = createCancelButton()
   const saveButton = createSaveButton()
-  let input
-  if (type === 'textarea') {
-    input = document.createElement('textarea')
-    input.setAttribute('class', 'input')
-    input.value = originalValue
-  } else {
-    // input = createInput(todo[prop], type)
-    input = document.createElement('input')
-    input.setAttribute('class', 'input')
-    input.type = type
-    input.value = originalValue
+  const buttonContainer = document.createElement('div')
+  buttonContainer.setAttribute('class', 'btn-container ')
+  let input = popupContainer.querySelector('.input')
+  if (!input) {
+    if (type === 'textarea') {
+      input = document.createElement('textarea')
+      input.setAttribute('class', 'input')
+      input.setAttribute('name', 'input')
+      if (mediaQuery.matches) {
+        input.rows = 5
+        input.cols = 50
+      } else {
+        input.rows = 5
+        input.cols = 30
+      }
+
+      input.value = originalValue
+    } else {
+      input = document.createElement('input')
+      input.setAttribute('class', 'input')
+      input.setAttribute('name', 'input')
+      input.type = type
+      if (mediaQuery.matches) {
+        input.size = 50
+      } else {
+        input.size = 30
+      }
+      input.value = originalValue
+    }
+
+    element.textContent = ''
+    element.before(input)
+    element.before(buttonContainer)
+    buttonContainer.appendChild(saveButton)
+    buttonContainer.appendChild(cancelButton)
   }
-
-  element.textContent = ''
-  element.before(input)
-  element.before(saveButton)
-  element.before(cancelButton)
-
   input.focus()
   input.select()
   saveButton.addEventListener('click', saveInput)
@@ -602,19 +659,19 @@ function handleEditTodo (todo, type, prop, element) {
   function cancelInput () {
     todo[prop] = originalValue
     saveToLocalStorage(projectList)
-    // clearPopup()
     removeInput()
     element.textContent = todo[prop]
+    // handleTodoListeners(todo)
   }
 
   function removeInput () {
     originalValue = null
     input.value = ''
     input.remove()
-    saveButton.remove()
-    cancelButton.remove()
+    buttonContainer.remove()
+    // saveButton.remove()
+    // cancelButton.remove()
   }
-  // originalValue = null
 }
 
 function addCloseListener (todo, project) {
@@ -631,15 +688,17 @@ function addCompletedListener (todo) {
   input.type = 'checkbox'
   input.checked = todo.isCompleted
   input.setAttribute('class', 'edit')
+  input.setAttribute('name', 'completed')
   dispTodoCompleted.appendChild(input)
-  // saveToLocalStorage(projectList)
   markAsCompleted(todo, input)
 }
 
 function handleSelect (element, todo) {
   const select = document.createElement('select')
+  // select2($)
   select.id = 'priority'
   select.setAttribute('type', 'select')
+  // select.classList.add('select2')
   const options = ['Yesterday', 'High', 'Low', 'No rush']
   for (let i = 0; i < options.length; i++) {
     const option = new Option(options[i], options[i])
@@ -648,12 +707,13 @@ function handleSelect (element, todo) {
     }
     select.appendChild(option)
   }
-  select.addEventListener('change', () => {
+  select.addEventListener('change', (e) => {
     todo.priority = select.value
     saveToLocalStorage(projectList)
   })
   element.textContent = ''
   element.appendChild(select)
+  // $(select).select2()
   select.focus()
 }
 
@@ -661,13 +721,11 @@ function handleSelect (element, todo) {
 function deleteTodo (todo) {
   if (confirm('Are you sure you want to delete this todo?')) {
     let todoProject
-    console.log(projectList[todo.project])
 
     if (todo.isCompleted) {
       // eslint-disable-next-line dot-notation
       todoProject = projectList['Completed']
     } else {
-      console.log(projectList[todo.project])
       todoProject = projectList[todo.project]
     }
     for (let i = todoProject.length - 1; i >= 0; i--) {
@@ -679,7 +737,6 @@ function deleteTodo (todo) {
       }
     }
     popupModal.style.display = 'none'
-    console.log(todoProject)
     if (projectHeader.textContent === 'All Todos') {
       generateAll()
     } else if (projectHeader.textContent === 'Completed') {

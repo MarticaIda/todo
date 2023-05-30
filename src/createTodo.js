@@ -2,7 +2,6 @@
 
 import { generateTable, displayErrorMessage } from './index.js'
 import { saveToLocalStorage, getFromLocalStorage } from './localStorage.js'
-
 import { format, utcToZonedTime } from 'date-fns-tz'
 
 const Todo = (

@@ -1,17 +1,19 @@
 :root {
-  --main-color: #ecf87f;
-  --contrast-color: #a6e2dc;
-  --side-color: #97d49b;
-  --text-color: black;
-  --additional-color: #e4a58f;
-  --padding: 2rem;
-  --padding-item: 0.25rem;
-  --padding-grid: 0.75rem;
+  --main-color: #ffffff;
+  --accent-color: #97d49b;
+  --side-color: #ecf87f;
+  --text-color: #000000;
+  --contrast-color: #e4a58f;
+  --additional-color: #a6e2dc;
+  --padding: 2em;
+  --padding-item: 0.25em;
+  --padding-grid: 1em;
   --border-radius: 5px;
-  --font: helvetica, sans-serif;
+  --font: Helvetica, Arial, sans-serif;
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: var(--font);
@@ -22,15 +24,43 @@ body {
   height: 100%;
 }
 
-.container {
-  height: 100%;
+@media screen and (min-width: 675px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+  }
+}
+
+/* for mobile screens */
+.grid {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  grid-auto-columns: minmax(100px, 1fr); /* size of one column */
+  grid-template-rows: 3rem 1fr 3rem;
+  grid-auto-flow: column; /* column flow */
+  /* grid-template-columns: 1fr;
+  grid-template-rows: 3rem 0fr 1fr 3rem; */
   grid-template-areas:
-    "header header"
-    "nav main"
-    "footer footer";
+    "header"
+    "main"
+    "footer";
+}
+
+/* for desktop screens */
+@media screen and (min-width: 675px) {
+  .grid {
+    grid-template-columns: 35% 65%;
+    grid-template-rows: 3rem 1fr 3rem;
+    grid-template-areas:
+      "header header"
+      "nav main"
+      "footer footer";
+  }
 }
 
 header {
@@ -42,36 +72,83 @@ footer {
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  padding: 1rem;
+  align-items: center;
   text-align: center;
-  background-color: var(--contrast-color);
+  background-color: var(--accent-color);
   color: var(--text-color);
 }
 
 h1 {
-  margin: auto;
+  margin: 0 auto;
+  font-size: x-large;
+  padding: 0.5em;
 }
 
-.footer {
-  grid-area: footer;
-  justify-content: space-between;
-  font-size: smaller;
+/* for mobile screens */
+nav {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 6rem);
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 3rem;
+  left: 0;
+  background-color: var(--additional-color);
+  overflow-x: hidden;
+  padding: 0;
+  padding-top: var(--padding);
+  transition: 0.5s;
+}
+.nav-active {
+  width: 300px;
+  padding: var(--padding-grid);
+}
+
+/* for desktop screens */
+@media screen and (min-width: 675px) {
+  nav {
+    height: 100%;
+    grid-area: nav;
+    position: static;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding);
+    background-color: var(--side-color);
+  }
+}
+
+/* for smaller screens */
+@media screen and (max-height: 450px) {
+  nav {
+    padding-top: 15px;
+  }
+  nav li {
+    font-size: small;
+  }
+}
+
+/* for mobile screens */
+#btn-open-nav {
+  background-color: var(--accent-color);
+}
+
+/* for desktop screens */
+@media screen and (min-width: 675px) {
+  #btn-open-nav {
+    display: none;
+  }
 }
 
 h2,
 caption {
   text-align: center;
   font-size: medium;
-  padding-bottom: var(--padding-item);
-  border-bottom: #ddd 1px solid;
-}
-
-nav {
-  grid-area: nav;
-  display: flex;
-  flex-direction: column;
-  padding: var(--padding);
-  background-color: var(--side-color);
+  font-weight: 600;
+  margin-bottom: var(--padding-grid);
+  border-bottom: #ddd 0.3em solid;
 }
 
 .item {
@@ -79,30 +156,124 @@ nav {
   margin-bottom: var(--padding-item);
 }
 
-.bottom {
-  margin-top: auto;
-}
-
-.smallBtn {
-  font-size: small;
-  font-weight: 700;
-  background-color: var(--additional-color);
-}
-
 li {
   list-style: none;
+  display: inline;
 }
 
 button {
   font-size: small;
-  background-color: var(--main-color);
+  font-weight: 500;
+  background-color: var(--accent-color);
   background-repeat: no-repeat;
   background-position: center;
   color: var(--text-color);
   border: none;
   border-radius: var(--border-radius);
-  padding: 0.5rem;
+  padding: 0.5em 1.25em;
   cursor: pointer;
+  margin: 0 auto;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--additional-color);
+}
+
+.btn-container .edit {
+  margin: var(--padding-item);
+}
+
+.project-item {
+  padding-top: var(--padding-item);
+  padding-bottom: var(--padding-item);
+  width: fit-content;
+  border-bottom: 1px solid #ddd;
+  font-weight: 500;
+}
+
+.li-project:hover,
+.li-project:focus {
+  font-weight: 700;
+}
+
+.project-input {
+  display: flex;
+  flex-direction: row;
+  gap: var(--padding-item);
+  padding-top: var(--padding-item);
+  padding-bottom: var(--padding-item);
+  width: fit-content;
+}
+
+#input-project {
+  padding: var(--padding-item);
+  width: 100%;
+}
+
+.error {
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-container {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 1em;
+  border: 1px solid #888;
+  border-radius: var(--border-radius);
+  width: 80%;
+}
+
+@media screen and (min-width: 675px) {
+  .modal-container {
+    padding: var(--padding);
+  }
+}
+
+.btn-close {
+  display: inline-block;
+  background-color: transparent;
+  color: #aaa;
+  padding-bottom: var(--padding-grid);
+  padding-top: 0;
+}
+
+.btn-close:hover,
+.btn-close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+#help-text {
+  line-height: 1.5;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+#btn-open-help {
+  cursor: help;
+}
+
+.btn-contrast {
+  background-color: var(--contrast-color);
 }
 
 main {
@@ -111,8 +282,14 @@ main {
   flex-direction: column;
   flex: 3;
   flex: 1 0 auto;
-  padding: var(--padding);
+  padding: var(--padding-grid);
   background-color: var(--main-color);
+}
+
+@media screen and (min-width: 675px) {
+  main {
+    padding: var(--padding);
+  }
 }
 
 form {
@@ -126,19 +303,39 @@ input {
   border-radius: var(--border-radius);
   color: var(--text-color);
   padding: var(--padding-item);
-  margin-bottom: var(--padding-item);
+  margin: var(--padding-item) 0;
+  /* margin-bottom: var(--padding-item); */
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-position: right;
+  background-size: auto;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+#table-container {
+  display: table;
 }
 
 table {
-  table-layout: auto;
+  table-layout: fixed;
   width: 100%;
-  padding-bottom: var(--padding);
+  overflow-wrap: anywhere;
+  margin: 0 auto;
+  margin-bottom: var(--padding);
 }
 
 th {
   text-align: left;
   font-size: smaller;
-  padding: 1rem;
+  padding: var(--padding-grid);
   border-bottom: 1px solid #ddd;
 }
 
@@ -151,209 +348,163 @@ td {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
-  padding: 1rem;
+  padding: var(--padding-grid);
   border-bottom: 1px solid #ddd;
+  font-size: smaller;
+}
+
+@media screen and (min-width: 675px) {
+  td {
+    font-size: medium;
+  }
+}
+
+input .input-completed {
+  margin: 0;
 }
 
 img {
-  width: 15px;
-  height: 15px;
+  width: 1em;
+  height: 1em;
 }
 
-.projectContainer {
-  display: flex;
-  flex-direction: row;
-  gap: var(--padding-item);
-  padding-top: var(--padding-item);
-  padding-bottom: var(--padding-item);
-}
-
-.projectItem {
-  border-bottom: 1px solid #ddd;
-}
-
-#project-input {
-  padding: var(--padding-item);
-}
-
-.error {
-  display: none;
-}
-
-#inputModal,
-#helpModal,
-#popupModal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modalContainer {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: var(--padding);
-  border: 1px solid #888;
-  border-radius: var(--border-radius);
-  width: 80%;
-  max-width: 500px;
-}
-
-.hidden {
-  display: none;
-}
-
-#btnContainer {
-  display: flex;
-  flex-direction: row;
-  gap: var(--padding);
-  justify-content: center;
-  padding-top: var(--padding-item);
-}
-
-#btnOpenHelp {
-  cursor: help;
-}
-
-#btnOpen {
-  background-color: var(--side-color);
-}
-
-.btnClose {
-  color: #aaa;
-  /* float: right; */
-  font-size: small;
-  font-weight: bold;
-}
-
-#btnClose:hover,
-#btnClose:focus {
-  color: black;
-  text-decoration: none;
-}
-
-.pointer {
+img.edit {
+  width: 0.5em;
+  height: 0.5em;
   cursor: pointer;
 }
 
-#viewAllBtn {
-  display: block;
-  margin: 0 auto;
+#btn-open-input {
+  background-color: var(--side-color);
 }
-/* project name needs break if too long */
 
-#popupContainer {
+/* for mobile screens */
+#popup-container {
   display: grid;
-  /* grid-template-columns: repeat(4, auto);
-  grid-template-rows: repeat(6, auto); */
-  /* gap: 1rem; */
-  grid-template-areas:
-    "labelProject  ...........   ........... ..........."
-    "todoProject   todoProject   todoProject labelCompleted"
-    "labelName     ...........   ........... todoCompleted"
-    "todoName      todoName      todoName    labelPriority"
-    "labelDetails  ...........   ........... todoPriority"
-    "todoDetails   todoDetails   todoDetails todoDetails"
-    "todoDetails   todoDetails   todoDetails todoDetails"
-    "labelCreated  ...........   ........... ..........."
-    "todoCreatedOn todoCreatedOn ........... ..........."
-    "labelDue      ...........   ........... ..........."
-    "todoDueDate   todoDueDate   ........... todoDelete";
   align-content: end;
   justify-items: start;
+  grid-template-columns:1fr repeat(2, minmax(min-content, auto));
+  /* 85% 10% 5%; */
+  gap: var(--padding-grid);
 }
 
 /* align and justify all popup elements */
-#popupContainer > * {
-  align-self: center;
+#popup-container > * {
   justify-self: start;
 }
-
-.popupItemCont {
-  align-self: start;
+#todo-project {
+  grid-column: 1;
+  grid-row: 1;
+}
+#todo-cell {
+  grid-column: 1 / span 3;
+  grid-row: 2;
+}
+#details-cell {
+  grid-column: 1 / span 3;
+  grid-row: 3;
+}
+#priority-cell {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
 }
 
-.label {
-  font-size: xx-small;
-  padding-top: var(--padding-grid);
+#completed-cell {
+  grid-column: 3;
+  grid-row: 1;
+}
+#created-on-cell {
+  grid-column: 1 / span 3;
+  grid-row: 4;
 }
 
-#todoProject {
-  grid-area: todoProject;
-  grid-column: span 3;
-  font-size: larger;
-  /* padding-bottom: var(--padding-grid); */
-  text-align: center;
+#due-date-cell {
+  grid-column: 1 / span 2;
+  grid-row: 5;
+  font-weight: 600;
 }
 
-#labelCompleted {
-  grid-area: labelCompleted;
-}
-
-#labelName {
-  grid-area: labelName;
-}
-
-#labelDetails {
-  grid-area: labelDetails;
-}
-
-#labelProject {
-  grid-area: labelProject;
-}
-
-#popupName {
-  grid-area: todoName;
-  grid-column: span 3;
-  /* padding-bottom: var(--padding-grid); */
-}
-
-#popupDetails {
-  grid-area: todoDetails;
-  grid-column: span 3;
-  grid-row: span 2;
-  /* padding-bottom: var(--padding-grid); */
-}
-
-#labelCreated {
-  grid-area: labelCreated;
-}
-
-#todoCreatedOn {
-  grid-area: todoCreatedOn;
-  /* padding-bottom: var(--padding-grid); */
-}
-
-#labelDue {
-  grid-area: labelDue;
-}
-
-#popupDueDate {
-  grid-area: todoDueDate;
-}
-
-#labelPriority {
-  grid-area: labelPriority;
-}
-
-#todoPriority {
-  grid-area: todoPriority;
-}
-
-#todoCompleted {
-  grid-area: todoCompleted;
-}
-
-#todoDelete {
-  grid-area: todoDelete;
+#todo-delete {
+  grid-column: 3;
+  grid-row: 5;
   justify-self: end;
+  align-self: end;
 }
 
-input .completedInput {
-  margin: 0;
+label span {
+  font-size: small;
+}
+
+/* for desktop screens */
+@media screen and (min-width: 675px) {
+  #popup-container img {
+    width: 1em;
+    height: 1em;
+  }
+
+  .popup-item-cont {
+    align-self: start;
+  }
+
+  .popup-element {
+    display: block;
+  }
+
+  label {
+    font-size: medium;
+    color: #888;
+    margin-bottom: var(--padding-grid);
+  }
+
+  label span {
+    color: var(--text-color);
+    font-size: larger;
+  }
+
+  label .input {
+    display: block;
+  }
+
+  #todo-project {
+    font-size: large;
+  }
+  #priority-cell {
+    text-align: center;
+    justify-self: end;
+  }
+#priority {
+  text-overflow: ellipsis;
+}
+
+  #completed-cell {
+    text-align: center;
+    justify-self: end;
+  }
+  label:has(#todo-created-on) {
+    font-size: x-small;
+  }
+  #todo-created-on {
+    font-size: x-small;
+  }
+}
+
+@media screen and (min-width: 675px) {
+}
+.no-padding-top {
+  padding-top: 0;
+}
+
+.footer {
+  grid-area: footer;
+  justify-content: space-between;
+  font-size: x-small;
+  padding: var(--padding-item);
+}
+
+@media screen and (min-width: 675px) {
+  .footer {
+    font-size: small;
+    padding: var(--padding-grid);
+  }
 }
